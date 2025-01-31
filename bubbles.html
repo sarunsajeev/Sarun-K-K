@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubble Pop Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #87CEEB; /* Sky blue background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    #game-area {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px; /* Start slightly below the screen */
+      width: 50px;
+      height: 50px;
+      background: radial-gradient(circle, #ffffff, #add8e6);
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-120vh); /* Float beyond the top of the screen */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="game-area"></div>
+
+  <script>
+    const gameArea = document.getElementById('game-area');
+
+    // Function to create a bubble
+    function createBubble() {
+      const bubble = document.createElement('div');
+      bubble.classList.add('bubble');
+
+      // Set random horizontal position
+      bubble.style.left = Math.random() * 90 + '%';
+
+      // Set random animation duration
+      bubble.style.animationDuration = Math.random() * 15 + 15 + 's';
+
+      // Add the bubble to the game area
+      gameArea.appendChild(bubble);
+
+      // Add event listener to pop the bubble
+      bubble.addEventListener('click', () => {
+        bubble.style.background = 'rgba(255, 255, 255, 0)'; // Fade out the bubble
+        bubble.style.boxShadow = 'none';
+        bubble.style.pointerEvents = 'none';
+        setTimeout(() => bubble.remove(), 300); // Remove after effect
+      });
+
+      // Remove bubble when it floats out of view
+      bubble.addEventListener('animationend', () => bubble.remove());
+    }
+
+    // Create bubbles at regular intervals
+    setInterval(createBubble, 1500);
+  </script>
+</body>
+</html>
